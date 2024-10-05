@@ -35,7 +35,9 @@ Look at all of the data in the table by selecting all columns from the `dogs` ta
 
 
 ```python
-# Your code here; imports, create a connection, select all
+import sqlite3
+import pandas as pd
+conn = sqlite3.connect('dogs.db')
 ```
 
  
@@ -53,7 +55,11 @@ Display the outputs for each of the following query descriptions.
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name, breed
+FROM dogs
+WHERE gender = 'F'
+""",conn)
 ```
 
 ### Select the number of dogs that do not have a name
@@ -65,7 +71,11 @@ Display the outputs for each of the following query descriptions.
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT COUNT(*) AS num_of_dogs_without_name
+FROM dogs
+WHERE name IS NULL
+""", conn)
 ```
 
 ### Select the names of all dogs that contain the double letters `ff` or `oo`
@@ -77,7 +87,11 @@ Display the outputs for each of the following query descriptions.
 
 
 ```python
-# Your code here
+pd.read_sql ("""
+SELECT name
+FROM dogs
+WHERE name LIKE '%ff%' OR name LIKE '%oo%'
+""", conn)
 ```
 
 ### Select the names of all dogs listed in alphabetical order.  Notice that SQL lists the nameless dog first.
@@ -89,14 +103,23 @@ Display the outputs for each of the following query descriptions.
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name
+FROM dogs
+ORDER BY name
+""", conn)
 ```
 
 ### Select the name and breed of only the hungry dogs and list them from youngest to oldest
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name, breed
+FROM dogs
+WHERE hungry = 1
+ORDER BY age ASC
+""", conn)
 ```
 
 ### Select the oldest dog's name, age, and temperament
@@ -108,14 +131,24 @@ Display the outputs for each of the following query descriptions.
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name, age, temperament
+FROM dogs
+ORDER BY age DESC
+LIMIT 1
+""", conn)
 ```
 
 ### Select the name and age of the three youngest dogs
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name, age
+FROM dogs
+ORDER BY age ASC
+LIMIT 3
+""", conn)
 ```
 
 ### Select the name and breed of the dogs who are between five and ten years old, ordered from oldest to youngest
@@ -127,21 +160,31 @@ Display the outputs for each of the following query descriptions.
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name, breed
+FROM dogs
+WHERE age BETWEEN 5 AND 10
+ORDER BY age DESC
+""", conn)
 ```
 
 ### Select the name, age, and hungry columns for hungry dogs between the ages of two and seven.  This query should also list these dogs in alphabetical order.
 
 
 ```python
-# Your code here
+pd.read_sql("""
+SELECT name, age, hungry
+FROM dogs
+WHERE hungry = 1 AND age BETWEEN 2 AND 7
+ORDER BY name
+""", conn)
 ```
 
 ## Close the Database Connection
 
 
 ```python
-# Your code here
+conn.close()
 ```
 
 ## Summary
